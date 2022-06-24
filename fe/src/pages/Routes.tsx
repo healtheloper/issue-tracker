@@ -6,6 +6,7 @@ import DefaultPage from '@pages/DefaultPage';
 import JoinPage from '@pages/JoinPage';
 import Layout from '@pages/Layout';
 import LoginPage from '@pages/LoginPage';
+import OauthCallbackPage from '@pages/OauthCallbackPage';
 
 export default function Routes() {
   const { isLogin } = useHeaderState();
@@ -16,6 +17,7 @@ export default function Routes() {
         <Route path="login" element={<LoginPage />} />
         <Route path="join" element={<JoinPage />} />
         <Route path="createIssue" element={<CreateIssuePage />} />
+        <Route path="callback" element={<OauthCallbackPage />} />
       </Route>
     </RouterRoutes>
   );

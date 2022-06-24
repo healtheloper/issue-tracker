@@ -24,30 +24,31 @@ export default function LoginPage() {
     const email = formData.email?.value;
     const password = formData.password?.value;
     const {
-      data: { profileUrl },
+      data: { userInfo },
     } = await axios.post('/api/login', {
       email,
       password,
     });
-    headerDispatch({ type: 'LOGIN', profileUrl });
+    headerDispatch({ type: 'LOGIN', userInfo });
     navigate('/');
   };
 
   const handleClickGithubLogin = async () => {
-    // const githubAuthUrl = 'https://github.com/login/oauth/authorize';
-    // const queryConfig = {
-    //   scope: 'user',
-    //   client_id: process.env.CLIENT_ID,
-    // };
-    // const queryString = convertKeyValueToQuery(queryConfig);
-    // const url = githubAuthUrl + queryString;
-    // window.location.href(url);
-    // 원래 로직은 github login 을 위한 페이지로 href
-    const {
-      data: { profileUrl },
-    } = await axios.get('/api/github-login');
-    headerDispatch({ type: 'LOGIN', profileUrl });
-    navigate('/');
+    const githubAuthUrl = 'https://github.com/login/oauth/authorize';
+    if (!process.env.CLIENT_ID) {
+      throw new Error('Cannot find client id');
+    }
+    const queryConfig = {
+      scope: 'user',
+      client_id: process.env.CLIENT_ID,
+      redirect_uri: 'http://localhost:8111/callback',
+    };
+
+    const searchParamsObj = new URLSearchParams(queryConfig);
+    const queryString = `?${searchParamsObj.toString()}`;
+
+    const githubLoginUrl = githubAuthUrl + queryString;
+    window.location.href = githubLoginUrl;
   };
 
   return (

@@ -10,7 +10,7 @@ export type MemberType = {
   id: number;
   identity: string;
   name: string;
-  profileUrl: string | null;
+  profileUrl: string | undefined;
 };
 
 export type LabelType = {

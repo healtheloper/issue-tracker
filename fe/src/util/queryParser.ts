@@ -42,9 +42,3 @@ export const convertUrlToInputValue = () => {
     .replaceAll('&', ' ');
   return inputValue;
 };
-
-export const convertKeyValueToQuery = (target: object) => {
-  const searchParamsObj = new URLSearchParams(target);
-  const queryString = `?${searchParamsObj.toString()}`;
-  return queryString;
-};

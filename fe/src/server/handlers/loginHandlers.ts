@@ -3,7 +3,8 @@ import { rest } from 'msw';
 import { minute } from '@util/timeUtils';
 
 interface IUser {
-  memberId: number;
+  id: number;
+  identity: string;
   name: string;
   email: string;
   password: string;
@@ -17,7 +18,8 @@ interface IFakeToken {
 let lastUserId = 2;
 const fakeUsers: IUser[] = [
   {
-    memberId: 1,
+    id: 1,
+    identity: 'healtheopler',
     name: 'Park',
     email: 'super0872@naver.com',
     password: '1234',
@@ -57,7 +59,8 @@ const postJoin = async (req, res, ctx) => {
   const profileUrl =
     'https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg';
   const userData: IUser = {
-    memberId: lastUserId,
+    id: lastUserId,
+    identity: 'fakeIdentity',
     name,
     email,
     password,
@@ -75,13 +78,18 @@ const postLogin = async (req, res, ctx) => {
     return res(ctx.status(401));
   }
   if (user.password === password) {
-    startLoginTimer(user.memberId);
+    startLoginTimer(user.id);
     return res(
       ctx.status(201),
-      ctx.cookie('refresh-token', `r-${user.memberId}`),
-      ctx.set('access-token', `a-${user.memberId}`),
+      ctx.cookie('refresh-token', `r-${user.id}`),
+      ctx.set('access-token', `a-${user.id}`),
       ctx.json({
-        profileUrl: user.profile_url,
+        userInfo: {
+          id: user.id,
+          identity: user.identity,
+          name: user.name,
+          profileUrl: user.profile_url,
+        },
         status: 'OK',
         message: '로그인이 정상적으로 처리되었습니다.',
       }),
@@ -93,10 +101,10 @@ const postLogin = async (req, res, ctx) => {
 const getGithubLogin = async (_, res, ctx) => {
   // code 를 통해 user 를 찾는 로직은 일단 없음
   const user = fakeUsers[0];
-  startLoginTimer(user.memberId);
+  startLoginTimer(user.id);
   return res(
-    ctx.cookie('refresh-token', `r-${user.memberId}`),
-    ctx.set('access-token', `a-${user.memberId}`),
+    ctx.cookie('refresh-token', `r-${user.id}`),
+    ctx.set('access-token', `a-${user.id}`),
     ctx.json({
       profileUrl: user.profile_url,
       status: 'OK',
@@ -143,7 +151,7 @@ const getMe = (req, res, ctx) => {
   const [, accessToken] = authorization.split(' ');
   // jwt 써야하는데 일단 안씀
   const userId = accessToken;
-  const user = fakeUsers.find((fUser) => fUser.memberId === userId);
+  const user = fakeUsers.find((fUser) => fUser.id === userId);
   return res(ctx.status(200), ctx.json(user));
 };
 

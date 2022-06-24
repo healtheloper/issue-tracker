@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import UserIconSize from '@constants/sizes';
-import { useHeaderState } from '@contexts/HeaderProvider';
 import { UserIconSizeType } from '@type/types';
 
 export default function UserIcon({
@@ -11,11 +10,9 @@ export default function UserIcon({
   size: UserIconSizeType;
   imgUrl?: string;
 }) {
-  //  todo: profileUrl도 사용하고 싶은 곳에서 parm으로 넘겨주는게 좋을듯
-  const { profileUrl } = useHeaderState();
   return (
     <UserIconContainer size={size}>
-      <UserIconImg imgSrc={imgUrl || profileUrl} />
+      <UserIconImg imgSrc={imgUrl} />
     </UserIconContainer>
   );
 }
@@ -25,7 +22,7 @@ const UserIconContainer = styled.div<{ size: UserIconSizeType }>`
   ${({ size }) => `height: ${UserIconSize[size]}`};
 `;
 
-const UserIconImg = styled.img<{ imgSrc: string }>`
+const UserIconImg = styled.img<{ imgSrc?: string }>`
   width: 100%;
   height: 100%;
   border: 1px solid ${({ theme }) => theme.palette.borderColor};
