@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import Header from '@components/Header';
 import IssueTable from '@components/IssueTable';
 import UtilBar from '@components/UtilBar';
 
@@ -11,12 +10,9 @@ const Body = styled.div`
 
 export default function DefaultPage() {
   return (
-    <>
-      <Header />
-      <Body>
-        <UtilBar />
-        <IssueTable />
-      </Body>
-    </>
+    <Body>
+      <UtilBar />
+      <IssueTable />
+    </Body>
   );
 }

@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import mixin from '@style/mixin';
 import { checkIfUrlHasQuery } from '@util/queryParser';
 
-export default function PopoverMenu({ menu, onClickModalItem }) {
+export default function PopoverMenu({ menu, onClickPopoverItem }) {
   const isSelectedFilter = checkIfUrlHasQuery(menu.queryKey, menu.queryValue);
   return (
     <PopoverMenuContainer
       onClick={() => {
-        onClickModalItem(menu);
+        onClickPopoverItem(menu);
       }}
     >
       <span>{menu.name}</span>

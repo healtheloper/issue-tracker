@@ -60,6 +60,7 @@ module.exports = {
     new webpack.EnvironmentPlugin(Object.keys(process.env)),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '..', 'public', 'index.html'),
+      base: '/',
     }),
     new InterpolateHtmlPlugin(process.env),
   ],

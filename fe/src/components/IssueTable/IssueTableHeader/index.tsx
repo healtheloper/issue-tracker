@@ -13,7 +13,7 @@ import colors from '@constants/colors';
 import modalStatic, { ModalStatusChangeType } from '@constants/modalStatic';
 import useAxiosAll from '@hooks/useAxiosAll';
 import mixin from '@style/mixin';
-import { ModalContentType, IssueType } from '@type/types';
+import { PopoverContentType, IssueType } from '@type/types';
 import { checkIfUrlHasQuery, makeUrlQuery } from '@util/queryParser';
 
 interface IIssueTableData {
@@ -53,7 +53,7 @@ export default function IssueTableHeader({
   toggleAllIssues,
 }: IIssueTableHeaderProps) {
   const navigate = useNavigate();
-  const { data: menuDatas } = useAxiosAll<ModalContentType[]>(
+  const { data: menuDatas } = useAxiosAll<PopoverContentType[]>(
     ['/api/members', '/api/labels', '/api/milestones', '/api/members'],
     'get',
   );
@@ -111,7 +111,7 @@ export default function IssueTableHeader({
           <PopoverContainer<ModalStatusChangeType>
             title="상태수정"
             menus={modalStatic.STATUS_CHANGE}
-            onClickModalItem={handleClickStatusChangeItem}
+            onClickPopoverItem={handleClickStatusChangeItem}
           >
             <IconTextBox
               Icon={<KeyboardArrowDownIcon />}
@@ -121,11 +121,11 @@ export default function IssueTableHeader({
           </PopoverContainer>
         ) : (
           filterDropdownDatas?.map(({ title, type, menus }) => (
-            <PopoverContainer<ModalContentType>
+            <PopoverContainer<PopoverContentType>
               key={type}
               title={title}
               menus={getFormattedMenus(menus, type)}
-              onClickModalItem={handleClickFilterItem}
+              onClickPopoverItem={handleClickFilterItem}
             >
               <IconTextBox
                 Icon={<KeyboardArrowDownIcon />}

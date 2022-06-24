@@ -1,26 +1,28 @@
 import styled, { css } from 'styled-components';
 
-type PropsType = {
-  text: string;
-  color: string;
-  bgColor: string;
-};
+import colors from '@constants/colors';
 
-export default function Label({ text, color, bgColor }: PropsType) {
+export interface LabelProps {
+  text: string;
+  darkText?: boolean;
+  bgColor: string;
+}
+
+export default function Label({ text, darkText = false, bgColor }: LabelProps) {
   return (
-    <LabelContainer color={color} bgColor={bgColor}>
+    <LabelContainer darkText={darkText} bgColor={bgColor}>
       {text}
     </LabelContainer>
   );
 }
 
-const LabelContainer = styled.div<{ color: string; bgColor: string }>`
+const LabelContainer = styled.div<{ bgColor: string; darkText?: boolean }>`
   padding: 4px 16px;
   border-radius: 30px;
   font-size: 0.75rem;
   width: fit-content;
-  ${({ color, bgColor }) => css`
-    color: ${color};
+  ${({ darkText, bgColor }) => css`
+    color: ${darkText ? colors.black : colors.offWhite};
     background: ${bgColor};
   `}
 `;

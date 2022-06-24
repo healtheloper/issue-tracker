@@ -56,7 +56,7 @@ const BoxContainer = styled.div<{
 }>`
   ${mixin.flexMixin({ align: 'center' })}
   color: ${({ color }) => color};
-  gap: ${({ spacing }) => spacing}rem;
-  font-size: ${({ fontSize }) => fontSize}rem;
-  font-weight: ${({ fontWeight }) => fontWeight};
+  ${({ spacing }) => spacing && `gap : ${spacing}rem;`};
+  ${({ fontSize }) => fontSize && `font-size : ${fontSize}rem;`};
+  ${({ fontWeight }) => fontWeight && `font-weight : ${fontWeight};`};
 `;

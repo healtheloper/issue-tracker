@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <HeaderContainer>
       <Logo page="main" />
-      <UserIcon size="BIG" imgUrl={userInfo?.profileUrl} />
+      {userInfo && <UserIcon size="BIG" imgUrl={userInfo.profileUrl} />}
     </HeaderContainer>
   );
 }

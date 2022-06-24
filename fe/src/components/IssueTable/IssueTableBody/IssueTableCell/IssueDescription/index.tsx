@@ -26,12 +26,12 @@ export default function IssueDescription({
 
   return (
     <Wrapper>
-      <IconTextBox color={colors.label} texts={[`#${issueNum}`]} />
-      <IconTextBox color={colors.label} texts={[writerAndTimeDescription]} />
+      <IconTextBox color={colors.grey4} texts={[`#${issueNum}`]} />
+      <IconTextBox color={colors.grey4} texts={[writerAndTimeDescription]} />
       {milestone && (
         <IconTextBox
           Icon={<SignpostOutlinedIcon fontSize="small" />}
-          color={colors.label}
+          color={colors.grey4}
           texts={[milestone.subject]}
           spacing={0.5}
         />
@@ -44,5 +44,5 @@ const Wrapper = styled.div`
   ${mixin.flexMixin({ align: 'center' })}
   height: 1.75rem;
   gap: 1rem;
-  color: ${colors.label};
+  color: ${colors.grey4};
 `;

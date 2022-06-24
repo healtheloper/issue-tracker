@@ -9,7 +9,7 @@ type PropsType<T> = {
   top?: string | number;
   title: string;
   menus?: T[];
-  onClickModalItem?: (item: T) => void;
+  onClickPopoverItem?: (item: T) => void;
   children: React.ReactElement;
 };
 
@@ -18,20 +18,20 @@ export default function PopoverContainer<T>({
   top,
   title,
   menus,
-  onClickModalItem,
+  onClickPopoverItem,
   children,
 }: PropsType<T>) {
-  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isPopoverOpened, setIsPopoverOpened] = useState(false);
   return (
-    <Wrapper onClick={() => setIsModalOpened((prev) => !prev)}>
+    <Wrapper onClick={() => setIsPopoverOpened((prev) => !prev)}>
       <Trigger type="button">{children}</Trigger>
-      {isModalOpened && (
+      {isPopoverOpened && (
         <PopoverMenus
           left={left}
           top={top}
           title={title}
           menus={menus}
-          onClickModalItem={onClickModalItem}
+          onClickPopoverItem={onClickPopoverItem}
         />
       )}
     </Wrapper>

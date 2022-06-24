@@ -4,10 +4,11 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Container from '@components/Container';
+import Header from '@components/Header';
 import { useHeaderDispatch, useHeaderState } from '@contexts/HeaderProvider';
 
 const ThemeToggleButton = styled.button`
-  position: absolute;
+  position: fixed;
   bottom: 1rem;
   right: 1rem;
   width: 3rem;
@@ -33,11 +34,14 @@ export default function Layout() {
   };
 
   return (
-    <Container padding="0 2rem">
-      <Outlet />
-      <ThemeToggleButton onClick={handleClickToggleButton}>
-        {isDarkMode ? <WbSunnyIcon /> : <NightlightIcon />}
-      </ThemeToggleButton>
-    </Container>
+    <>
+      <Header />
+      <Container padding="0 2rem">
+        <Outlet />
+        <ThemeToggleButton onClick={handleClickToggleButton}>
+          {isDarkMode ? <WbSunnyIcon /> : <NightlightIcon />}
+        </ThemeToggleButton>
+      </Container>
+    </>
   );
 }

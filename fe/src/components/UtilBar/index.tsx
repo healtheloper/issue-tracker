@@ -1,10 +1,18 @@
-import Container from '@components/Container';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
-import FilterBar from './FilterBar';
-import NewIssueButton from './NewIssueButton';
-import TagTab from './TagTab';
+import Button from '@components/Button';
+import Container from '@components/Container';
+import FilterBar from '@components/UtilBar/FilterBar';
+import TagTab from '@components/UtilBar/TagTab';
 
 export default function UtilBar() {
+  const navigate = useNavigate();
+
+  const handleClickNewButton = () => {
+    navigate('/createIssue');
+  };
+
   return (
     <Container
       flexInfo={{ align: 'center', justify: 'space-between' }}
@@ -16,7 +24,10 @@ export default function UtilBar() {
         gap={1}
       >
         <TagTab />
-        <NewIssueButton />
+        <Button variant="primary" size="small" onClick={handleClickNewButton}>
+          <AddIcon fontSize="small" />
+          <span>이슈 작성</span>
+        </Button>
       </Container>
     </Container>
   );

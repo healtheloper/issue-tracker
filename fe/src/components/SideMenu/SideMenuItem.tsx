@@ -12,7 +12,7 @@ import {
   LabelType,
   MemberType,
   MilestoneType,
-  ModalContentType,
+  PopoverContentType,
 } from '@type/types';
 
 import { MenuDispatchType, ModalTypes } from './type';
@@ -51,7 +51,7 @@ export default function SideMenuItem({
   state: MemberType[] | LabelType[] | MilestoneType;
   menuDispatch: MenuDispatchType;
 }> {
-  const { data: menus } = useAxios<ModalContentType[]>(
+  const { data: menus } = useAxios<PopoverContentType[]>(
     `/api/${TypeEndPoint[type]}`,
     'get',
   );
@@ -74,7 +74,7 @@ export default function SideMenuItem({
           top={2}
           title={title}
           menus={getFormattedMenus(menus, type)}
-          onClickModalItem={handleClickItemAddBtn}
+          onClickPopoverItem={handleClickItemAddBtn}
         >
           <AddIcon sx={{ cursor: 'pointer' }} />
         </PopoverContainer>

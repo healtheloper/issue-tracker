@@ -3,18 +3,19 @@ import styled from 'styled-components';
 import mixin from '@style/mixin';
 import { getCssValueByUnit } from '@util/css';
 
-import ModalMenu from './PopoverMenu';
+import PopoverMenu from './PopoverMenu';
 
-interface IModalContainer {
+interface IPopoverContainer {
   left?: number | string;
   top?: number | string;
   unit?: string;
 }
 
-interface PopoverMenusProps<M extends { id?: number }> extends IModalContainer {
+interface PopoverMenusProps<M extends { id?: number }>
+  extends IPopoverContainer {
   title: string;
   menus?: M[];
-  onClickModalItem?: (item: M) => void;
+  onClickPopoverItem?: (item: M) => void;
 }
 
 export default function PopoverMenus<M extends { id?: number }>({
@@ -23,20 +24,20 @@ export default function PopoverMenus<M extends { id?: number }>({
   unit,
   title,
   menus,
-  onClickModalItem,
+  onClickPopoverItem,
 }: PopoverMenusProps<M>) {
   return (
     <>
-      <ModalContainer left={left} top={top} unit={unit}>
-        <ModalHeader>{title}</ModalHeader>
+      <PopoverContainer left={left} top={top} unit={unit}>
+        <PopoverHeader>{title}</PopoverHeader>
         {menus?.map((menu) => (
-          <ModalMenu
+          <PopoverMenu
             key={menu.id}
             menu={menu}
-            onClickModalItem={onClickModalItem}
+            onClickPopoverItem={onClickPopoverItem}
           />
         ))}
-      </ModalContainer>
+      </PopoverContainer>
       <DropdownBackdrop />
     </>
   );
@@ -54,7 +55,7 @@ const DropdownBackdrop = styled.div`
   z-index: 1;
 `;
 
-const ModalContainer = styled.div<IModalContainer>`
+const PopoverContainer = styled.div<IPopoverContainer>`
   position: absolute;
   width: 15rem;
   left: ${({ left, unit }) =>
@@ -67,7 +68,7 @@ const ModalContainer = styled.div<IModalContainer>`
   z-index: 2;
 `;
 
-const ModalHeader = styled.div`
+const PopoverHeader = styled.div`
   ${mixin.flexMixin({ align: 'center' })}
   background: grey;
   height: 3rem;

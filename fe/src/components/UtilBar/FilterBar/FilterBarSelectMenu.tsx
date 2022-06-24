@@ -24,7 +24,7 @@ export default function FilterBarSelectMenu() {
       <PopoverContainer
         title="필터"
         menus={modalStatic.ISSUE}
-        onClickModalItem={handleClickTableHeaderItem}
+        onClickPopoverItem={handleClickTableHeaderItem}
       >
         <IconTextBox
           Icon={<KeyboardArrowDownIcon />}

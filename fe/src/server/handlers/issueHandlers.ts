@@ -12,14 +12,22 @@ const getIssues = (req, res, ctx) => {
 };
 
 const postCreateIssue = (req, res, ctx) => {
-  const { subject, description, labels, milestone, assignees } = req.body;
+  const {
+    subject,
+    description,
+    labels,
+    milestone,
+    assignees,
+    writer,
+    profileUrl,
+  } = req.body;
   const newIssueId = fakeIssues[fakeIssues.length - 1].id + 1;
   const newIssue: IssueType = {
     id: newIssueId,
     subject,
     description,
-    writer: 'happyGyu',
-    profileUrl: 'https://avatars.githubusercontent.com/u/95538993?v=4',
+    writer,
+    profileUrl,
     status: 'OPEN',
     createdDateTime: new Date().toISOString(),
     labels,
