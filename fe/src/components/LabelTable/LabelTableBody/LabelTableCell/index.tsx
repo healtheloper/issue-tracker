@@ -1,5 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
 import styled, { useTheme } from 'styled-components';
 
 import AlertDialog from '@components/AlertDialog';
@@ -9,6 +10,10 @@ import mixin from '@style/mixin';
 
 export default function LabelTableCell({ label }) {
   const theme = useTheme();
+
+  const handleClickDeleteYes = async () => {
+    await axios.delete(`/api/label/${label.id}`);
+  };
 
   return (
     <CellContainer>
@@ -29,9 +34,7 @@ export default function LabelTableCell({ label }) {
             backgroundColor: theme.palette.bgColor,
             color: theme.palette.fontColor,
           }}
-          onClickYes={() => {
-            console.log('예쓰');
-          }}
+          onClickYes={handleClickDeleteYes}
         >
           <IconTextBox
             Icon={<DeleteIcon fontSize="small" />}
