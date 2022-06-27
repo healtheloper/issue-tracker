@@ -27,10 +27,33 @@ const postCreateLabel = (req, res, ctx) => {
   return res(ctx.status(201));
 };
 
+const patchLabel = (req, res, ctx) => {
+  const { id } = req.params;
+  const { name, description, color, darkText }: LabelType = req.body;
+  const label = fakeLabels.find((fLabel) => fLabel.id === Number(id));
+  if (!label) {
+    return res(
+      ctx.status(404),
+      res.json({ status: 'NOT_FOUND', message: '존재하지 않는 라벨입니다.' }),
+    );
+  }
+  fakeLabels = fakeLabels.filter((fLabel) => fLabel.id !== Number(id));
+  const newLabel = {
+    ...label,
+    ...(name ? { name } : {}),
+    ...(description ? { description } : {}),
+    ...(color ? { color } : {}),
+    ...(darkText ? { darkText } : {}),
+  };
+  fakeLabels.push(newLabel);
+  return res(ctx.status(200), ctx.json(newLabel));
+};
+
 export default function labelHandlers() {
   return [
     rest.get('/api/labels', getLabels),
     rest.post('/api/labels/create', postCreateLabel),
-    rest.delete('/api/label/:id', deleteLabel),
+    rest.delete('/api/labels/:id', deleteLabel),
+    rest.patch('/api/labels/:id', patchLabel),
   ];
 }
