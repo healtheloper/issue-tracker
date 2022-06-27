@@ -11,7 +11,8 @@ const getLabels = (req, res, ctx) =>
 
 const deleteLabel = (req, res, ctx) => {
   const { id } = req.params;
-  fakeLabels = fakeLabels.filter((label) => label.id !== id);
+  fakeLabels = fakeLabels.filter((label) => label.id !== Number(id));
+  console.log(fakeLabels, id);
   return res(ctx.status(204));
 };
 

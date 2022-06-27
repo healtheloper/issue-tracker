@@ -6,13 +6,16 @@ import styled, { useTheme } from 'styled-components';
 import AlertDialog from '@components/AlertDialog';
 import IconTextBox from '@components/IconTextBox';
 import Label from '@components/Label';
+import { useLabelContext } from '@contexts/LabelProvider';
 import mixin from '@style/mixin';
 
 export default function LabelTableCell({ label }) {
   const theme = useTheme();
+  const { refetch: labelAxiosRefetch } = useLabelContext();
 
   const handleClickDeleteYes = async () => {
     await axios.delete(`/api/label/${label.id}`);
+    labelAxiosRefetch();
   };
 
   return (
