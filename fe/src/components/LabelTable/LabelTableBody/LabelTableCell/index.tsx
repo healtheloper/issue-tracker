@@ -2,6 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import styled, { useTheme } from 'styled-components';
 
+import AlertDialog from '@components/AlertDialog';
 import IconTextBox from '@components/IconTextBox';
 import Label from '@components/Label';
 import mixin from '@style/mixin';
@@ -23,13 +24,21 @@ export default function LabelTableCell({ label }) {
             color={theme.palette.fontColor}
           />
         </button>
-        <button type="button">
+        <AlertDialog
+          sx={{
+            backgroundColor: theme.palette.bgColor,
+            color: theme.palette.fontColor,
+          }}
+          onClickYes={() => {
+            console.log('예쓰');
+          }}
+        >
           <IconTextBox
             Icon={<DeleteIcon fontSize="small" />}
             texts={['삭제']}
             color={theme.palette.warning}
           />
-        </button>
+        </AlertDialog>
       </AssigneeIconContainer>
     </CellContainer>
   );
