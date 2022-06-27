@@ -14,6 +14,7 @@ const colors = {
   grey3: '#A0A3BD',
   grey4: '#6E7191',
   blue: '#007AFF',
+  skyBlue: '#C7EBFF',
   red: '#d63031',
 };
 

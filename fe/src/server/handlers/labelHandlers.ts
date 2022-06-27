@@ -9,6 +9,12 @@ const lastLabelsId = fakeLabels[fakeLabels.length - 1].id;
 const getLabels = (req, res, ctx) =>
   res(ctx.status(200), ctx.json({ labels: fakeLabels }));
 
+const deleteLabel = (req, res, ctx) => {
+  const { id } = req.params;
+  fakeLabels = fakeLabels.filter((label) => label.id !== id);
+  return res(ctx.status(204));
+};
+
 const postCreateLabel = (req, res, ctx) => {
   const { name, description, color, darkText } = req.body;
   fakeLabels.push({
@@ -19,12 +25,6 @@ const postCreateLabel = (req, res, ctx) => {
     darkText,
   });
   return res(ctx.status(201));
-};
-
-const deleteLabel = (req, res, ctx) => {
-  const { id } = req.params;
-  fakeLabels = fakeLabels.filter((label) => label.id !== id);
-  return res(ctx.status(204));
 };
 
 export default function labelHandlers() {

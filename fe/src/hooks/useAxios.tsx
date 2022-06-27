@@ -12,7 +12,7 @@ type Action<T> =
   | { type: 'FETCHED'; payload: T }
   | { type: 'ERROR'; payload: Error };
 
-type MethodType = 'get' | 'post';
+type MethodType = 'get' | 'post' | 'patch';
 
 export default function useAxios<T>(
   url: string,

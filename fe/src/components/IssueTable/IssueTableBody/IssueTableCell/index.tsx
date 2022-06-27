@@ -30,7 +30,11 @@ export default function IssueTableCell({
         />
       </CheckboxContainer>
       <IssueInfoContainer>
-        <IssueTitle title={issue.subject} labels={issue.labels} />
+        <IssueTitle
+          title={issue.subject}
+          labels={issue.labels}
+          issueId={issue.id}
+        />
         <IssueDescription
           issueNum={issue.id}
           writer={issue.writer}

@@ -11,7 +11,7 @@ interface IIssueDescriptionProps {
   issueNum: number;
   writer: string;
   createdDateTime: string;
-  milestone: MilestoneType | null;
+  milestone?: MilestoneType;
 }
 
 export default function IssueDescription({

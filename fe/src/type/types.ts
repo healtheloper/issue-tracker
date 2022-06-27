@@ -1,5 +1,11 @@
 import { IPalette } from '@style/theme';
 
+export type CommentType = {
+  writerIdentity: string;
+  createdDateTime: string;
+  content: string;
+};
+
 export type PopoverFilterType = {
   queryKey: string;
   queryValue: string;
@@ -36,11 +42,11 @@ export type IssueType = {
   id: number;
   status: string;
   subject: string;
-  description: string;
+  comments: CommentType[];
   writer: string;
   profileUrl: string;
   createdDateTime: string;
-  milestone: MilestoneType | null;
+  milestone?: MilestoneType;
   labels: LabelType[];
   assignees: MemberType[];
 };

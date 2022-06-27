@@ -6,6 +6,12 @@ import { IssueType } from '@type/types';
 
 let fakeIssues: IssueType[] = [...issues];
 
+const getIssue = (req, res, ctx) => {
+  const { id } = req.params;
+  const targetIssue = fakeIssues.find((issue) => issue.id === Number(id));
+  return res(ctx.status(200), ctx.json(targetIssue));
+};
+
 const getIssues = (req, res, ctx) => {
   const filteredIssues = filterIssues(req.url.search, fakeIssues);
   return res(ctx.status(200), ctx.json(filteredIssues));
@@ -14,7 +20,7 @@ const getIssues = (req, res, ctx) => {
 const postCreateIssue = (req, res, ctx) => {
   const {
     subject,
-    description,
+    comments,
     labels,
     milestone,
     assignees,
@@ -25,7 +31,7 @@ const postCreateIssue = (req, res, ctx) => {
   const newIssue: IssueType = {
     id: newIssueId,
     subject,
-    description,
+    comments,
     writer,
     profileUrl,
     status: 'OPEN',
@@ -54,10 +60,24 @@ const patchUpdatedStatus: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
   return res(ctx.status(200), ctx.json(fakeIssues));
 };
 
+const updateIssue: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
+  const newIssueData: Partial<IssueType> = req.body;
+  const updatedIssues = fakeIssues.map((issue) => {
+    if (issue.id === newIssueData.id) {
+      return { ...issue, ...newIssueData };
+    }
+    return issue;
+  });
+  fakeIssues = updatedIssues;
+  return res(ctx.status(200), ctx.json(fakeIssues));
+};
+
 export default function issueHandlers() {
   return [
     rest.get('/api/issues', getIssues),
+    rest.get('/api/issue/:id', getIssue),
     rest.post('/api/createIssue', postCreateIssue),
     rest.patch('/api/issues/status/update', patchUpdatedStatus),
+    rest.patch('/api/issue/update', updateIssue),
   ];
 }

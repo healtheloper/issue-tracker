@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Logo from '@components/Header/Logo';
@@ -10,7 +11,9 @@ export default function Header() {
 
   return (
     <HeaderContainer>
-      <Logo page="main" />
+      <Link to="/">
+        <Logo page="main" />
+      </Link>
       {userInfo && <UserIcon size="BIG" imgUrl={userInfo.profileUrl} />}
     </HeaderContainer>
   );
