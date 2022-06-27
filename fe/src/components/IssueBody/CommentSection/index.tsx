@@ -1,15 +1,15 @@
 import Container from '@components/Container';
 import TextAreaBox from '@components/inputs/TextAreaBox';
 import Comment from '@components/IssueBody/CommentSection/Comment';
-import { useIssueState } from '@contexts/IssueProvider';
+import { useIssueContext } from '@contexts/IssueProvider';
 
 export default function CommentSection() {
-  const { comments } = useIssueState();
+  const { issue: { comments } = {} } = useIssueContext();
 
   return (
     <Container>
-      {comments.map((comment) => (
-        <Comment commentData={comment} />
+      {comments?.map((comment) => (
+        <Comment key={comment.id} commentData={comment} />
       ))}
       <TextAreaBox />
     </Container>

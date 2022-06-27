@@ -44,7 +44,11 @@ export default function IssueTableCell({
       </IssueInfoContainer>
       <AssigneeIconContainer>
         {issue.assignees.map((assignee) => (
-          <UserIcon size="SMALL" imgUrl={assignee.profileUrl} />
+          <UserIcon
+            key={assignee.id}
+            size="SMALL"
+            imgUrl={assignee.profileUrl}
+          />
         ))}
       </AssigneeIconContainer>
     </CellContainer>

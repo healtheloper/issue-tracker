@@ -17,7 +17,8 @@ type IssueTableDataType = {
 export default function IssueTable() {
   const [checkedIssueIds, setCheckedIssueIds] = useState<number[]>([]);
   const fetchUrl = `/api/issues/${useLocation().search}`;
-  const { data: issueTableData } = useAxios<IssueTableDataType>(fetchUrl);
+  const { state: issueState } = useAxios<IssueTableDataType>(fetchUrl);
+  const { data: issueTableData } = issueState;
 
   const toggleAllIssues = (isChecked: boolean) => {
     if (!issueTableData) return;

@@ -1,48 +1,30 @@
-import {
-  useState,
-  useContext,
-  createContext,
-  ReactNode,
-  SetStateAction,
-  Dispatch,
-} from 'react';
+import { useContext, createContext, ReactNode, useMemo } from 'react';
 
 import useAxios from '@hooks/useAxios';
 import { LabelType } from '@type/types';
 
-const LabelStateContext = createContext<LabelType[] | null>(null);
-const LabelSetStateContext = createContext<Dispatch<
-  SetStateAction<LabelType[]>
-> | null>(null);
+const LabelContext = createContext<{
+  labels?: LabelType[];
+  refetch: () => void;
+} | null>(null);
 
-interface ILabelProviderProps {
-  children: ReactNode;
-}
-
-export function LabelProvider({ children }: ILabelProviderProps) {
-  const { data: { labels: initLabels } = {} } = useAxios<{
+export function LabelProvider({ children }) {
+  const { state, refetch } = useAxios<{
     labels: LabelType[];
   }>('/api/labels');
 
-  const [labels, setLabels] = useState(initLabels || []);
+  const { data: { labels } = {} } = state;
+  const labelContextValue = useMemo(() => ({ labels, refetch }), [state]);
 
   return (
-    <LabelStateContext.Provider value={labels}>
-      <LabelSetStateContext.Provider value={setLabels}>
-        {children}
-      </LabelSetStateContext.Provider>
-    </LabelStateContext.Provider>
+    <LabelContext.Provider value={labelContextValue}>
+      {children}
+    </LabelContext.Provider>
   );
 }
 
-export function useLabelStateContext() {
-  const labelState = useContext(LabelStateContext);
+export function useLabelContext() {
+  const labelState = useContext(LabelContext);
   if (!labelState) throw new Error('Cannot find LabelProvider');
   return labelState;
-}
-
-export function useLabelSetStateContext() {
-  const labelSetState = useContext(LabelSetStateContext);
-  if (!labelSetState) throw new Error('Cannot find LabelProvider');
-  return labelSetState;
 }

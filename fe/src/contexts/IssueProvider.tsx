@@ -1,44 +1,33 @@
-import {
-  useState,
-  useContext,
-  createContext,
-  ReactNode,
-  SetStateAction,
-  Dispatch,
-} from 'react';
+import { useContext, createContext, ReactNode, useMemo } from 'react';
 
+import useAxios from '@hooks/useAxios';
 import { IssueType } from '@type/types';
 
-type IssueDispatch = Dispatch<SetStateAction<IssueType>>;
-
-const IssueStateContext = createContext<IssueType | null>(null);
-const IssueDispatchContext = createContext<IssueDispatch | null>(null);
+const IssueContext = createContext<{
+  issue?: IssueType;
+  refetch: () => void;
+} | null>(null);
 
 interface IIssueProvider {
-  initialIssueData: IssueType;
+  issueId: number;
   children: ReactNode;
 }
 
-export function IssueProvider({ initialIssueData, children }: IIssueProvider) {
-  const [issue, setIssue] = useState(initialIssueData);
+export function IssueProvider({ issueId, children }: IIssueProvider) {
+  const { state, refetch } = useAxios<IssueType>(`/api/issue/${issueId}`);
+
+  const { data: issue } = state;
+  const issueContextValue = useMemo(() => ({ issue, refetch }), [state]);
 
   return (
-    <IssueStateContext.Provider value={issue}>
-      <IssueDispatchContext.Provider value={setIssue}>
-        {children}
-      </IssueDispatchContext.Provider>
-    </IssueStateContext.Provider>
+    <IssueContext.Provider value={issueContextValue}>
+      {children}
+    </IssueContext.Provider>
   );
 }
 
-export function useIssueState() {
-  const issueState = useContext(IssueStateContext);
+export function useIssueContext() {
+  const issueState = useContext(IssueContext);
   if (!issueState) throw new Error('Cannot find IssueProvider');
   return issueState;
-}
-
-export function useSetIssue() {
-  const setIssue = useContext(IssueDispatchContext);
-  if (!setIssue) throw new Error('Cannot find IssueProvider');
-  return setIssue;
 }

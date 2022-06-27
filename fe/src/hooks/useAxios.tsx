@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 export interface ResponseState<T> {
   data?: T;
@@ -18,7 +18,7 @@ export default function useAxios<T>(
   url: string,
   method: MethodType = 'get',
   options?: AxiosRequestConfig,
-): ResponseState<T> {
+): { state: ResponseState<T>; refetch: () => void } {
   const initState: ResponseState<T> = {
     data: undefined,
     error: undefined,
@@ -50,6 +50,9 @@ export default function useAxios<T>(
   }
 
   const [state, dispatch] = useReducer(reducer, initState);
+  const [refetchIndex, setRefetchIndex] = useState(0);
+
+  const refetch = () => setRefetchIndex(refetchIndex + 1);
 
   useEffect(() => {
     if (!url) return;
@@ -65,7 +68,7 @@ export default function useAxios<T>(
     };
 
     fetchData();
-  }, [options, url, method]);
+  }, [options, url, method, refetchIndex]);
 
-  return state;
+  return { state, refetch };
 }

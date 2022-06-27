@@ -10,13 +10,17 @@ import mixin from '@style/mixin';
 import { LabelType, MilestoneType } from '@type/types';
 
 export default function TagTab({ activeTab }: { activeTab?: string }) {
-  const { data: { milestones } = {} } = useAxios<{
+  const { state: milestoneState } = useAxios<{
     milestones: MilestoneType[];
   }>('/api/milestones');
 
-  const { data: { labels } = {} } = useAxios<{ labels: LabelType[] }>(
+  const { state: labelState } = useAxios<{ labels: LabelType[] }>(
     '/api/labels',
   );
+
+  const { data: { milestones } = {} } = milestoneState;
+  const { data: { labels } = {} } = labelState;
+
   const theme = useTheme();
 
   return (

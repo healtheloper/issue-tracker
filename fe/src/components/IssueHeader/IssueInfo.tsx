@@ -6,7 +6,7 @@ import Container from '@components/Container';
 import IconTextBox from '@components/IconTextBox';
 import Squircle from '@components/Squircle';
 import { fontSize } from '@constants/fonts';
-import { useIssueState } from '@contexts/IssueProvider';
+import { useIssueContext } from '@contexts/IssueProvider';
 import mixin from '@style/mixin';
 import { calTimePassed } from '@util/dateHandler';
 
@@ -16,8 +16,16 @@ interface IIssueInfo {
 }
 
 export default function IssueInfo({ isTitleEditing, titleRef }: IIssueInfo) {
-  const { subject, id, writer, comments, createdDateTime, status } =
-    useIssueState();
+  const {
+    issue: {
+      subject,
+      id,
+      writer,
+      comments = [],
+      createdDateTime = '',
+      status,
+    } = {},
+  } = useIssueContext();
   const theme = useTheme();
 
   return (

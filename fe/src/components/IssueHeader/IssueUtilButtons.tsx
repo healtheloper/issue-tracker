@@ -8,7 +8,7 @@ import styled, { useTheme } from 'styled-components';
 import Button from '@components/Button';
 import Container from '@components/Container';
 import IconTextBox from '@components/IconTextBox';
-import { useIssueState, useSetIssue } from '@contexts/IssueProvider';
+import { useIssueContext } from '@contexts/IssueProvider';
 
 interface IIssueUtilButtonsProps {
   titleRef: RefObject<HTMLInputElement>;
@@ -21,8 +21,8 @@ export default function IssueUtilButtons({
   isTitleEditing,
   setIsTitleEditing,
 }: IIssueUtilButtonsProps) {
-  const { id, status } = useIssueState();
-  const setIssue = useSetIssue();
+  const { issue: { id, status } = {}, refetch: issueAxiosRefetch } =
+    useIssueContext();
   const theme = useTheme();
 
   const handleClickFinshEditButton = async () => {
@@ -32,9 +32,8 @@ export default function IssueUtilButtons({
       id,
       subject: newTitle,
     });
-    const { data: updatedIssue } = await axios.get(`/api/issue/${id}`);
     setIsTitleEditing(false);
-    setIssue(updatedIssue);
+    issueAxiosRefetch();
   };
 
   const handleClickToggleIssuStatusButton = async () => {
@@ -42,8 +41,7 @@ export default function IssueUtilButtons({
       id,
       status: status === 'OPEN' ? 'CLOSED' : 'OPEN',
     });
-    const { data: updatedIssue } = await axios.get(`/api/issue/${id}`);
-    setIssue(updatedIssue);
+    issueAxiosRefetch();
   };
   return (
     <Container gap={0.5} flexInfo={{ align: 'center' }}>

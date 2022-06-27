@@ -79,7 +79,7 @@ function reducer(state: IHeaderState, action: Action): IHeaderState {
 
 export function HeaderProvider({ children }: { children: React.ReactNode }) {
   // TODO: init state 작업에 따라 바꿔서 사용하세요
-  const [state, dispatch] = useReducer(reducer, initHeaderState);
+  const [state, dispatch] = useReducer(reducer, initHeaderStateForDefaultPage);
 
   return (
     <HeaderStateContext.Provider value={state}>

@@ -5,11 +5,13 @@ import styled from 'styled-components';
 import CommentSection from '@components/IssueBody/CommentSection';
 import SideMenu from '@components/SideMenu';
 import UserIcon from '@components/UserIcon';
-import { useIssueState } from '@contexts/IssueProvider';
+import { useIssueContext } from '@contexts/IssueProvider';
 import sideMenuReducer from '@util/sideMenuReducer';
 
 export default function IssueBody() {
-  const { id, assignees, labels, milestone, profileUrl } = useIssueState();
+  const {
+    issue: { id, assignees = [], labels = [], milestone, profileUrl } = {},
+  } = useIssueContext();
   const initState = { assignees, labels, milestone };
   const [menuState, menuDispatch] = useReducer(sideMenuReducer, initState);
 

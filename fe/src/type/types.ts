@@ -1,6 +1,7 @@
 import { IPalette } from '@style/theme';
 
 export type CommentType = {
+  id: number;
   writerIdentity: string;
   createdDateTime: string;
   content: string;

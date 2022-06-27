@@ -5,15 +5,14 @@ import Divider from '@components/Divider';
 import IssueBody from '@components/IssueBody';
 import IssueHeader from '@components/IssueHeader';
 import { IssueProvider } from '@contexts/IssueProvider';
-import useAxios from '@hooks/useAxios';
-import { IssueType } from '@type/types';
 
 export default function IssueDetailPage() {
   const issueId = useParams().id;
-  const { data: issueData } = useAxios<IssueType>(`/api/issue/${issueId}`);
+
+  if (!issueId) throw Error("Can't found this issue id page");
 
   return (
-    <IssueProvider initialIssueData={issueData}>
+    <IssueProvider issueId={Number(issueId)}>
       <Body>
         <IssueHeader />
         <Divider margin="2rem" />

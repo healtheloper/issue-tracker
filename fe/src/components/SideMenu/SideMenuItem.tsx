@@ -17,6 +17,12 @@ import {
 
 import { MenuDispatchType, ModalTypes } from './type';
 
+type MenuKey = 'milestones' | 'labels' | 'members';
+
+type SideMenuItemTypes = {
+  [key in MenuKey]?: PopoverContentType;
+};
+
 enum KoType {
   ASSIGNEE = '담당자',
   LABEL = '레이블',
@@ -51,10 +57,13 @@ export default function SideMenuItem({
   state: MemberType[] | LabelType[] | MilestoneType;
   menuDispatch: MenuDispatchType;
 }> {
-  const { data: menus } = useAxios<PopoverContentType[]>(
-    `/api/${TypeEndPoint[type]}`,
-    'get',
-  );
+  const {
+    state: { data: menus = {} },
+  } = useAxios<SideMenuItemTypes>(`/api/${TypeEndPoint[type]}`);
+
+  // TODO: 무조건 바꿔야할 코드...
+  const deletedRootBraceMenus = Object.values(menus)[0];
+
   const title = `${KoType[type]} 추가`;
 
   const handleClickItemAddBtn = (menu) => {
@@ -73,7 +82,7 @@ export default function SideMenuItem({
           left={-14}
           top={2}
           title={title}
-          menus={getFormattedMenus(menus, type)}
+          menus={getFormattedMenus(deletedRootBraceMenus, type)}
           onClickPopoverItem={handleClickItemAddBtn}
         >
           <AddIcon sx={{ cursor: 'pointer' }} />
