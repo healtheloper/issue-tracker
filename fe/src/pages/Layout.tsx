@@ -6,9 +6,27 @@ import styled from 'styled-components';
 import Container from '@components/Container';
 import Header from '@components/Header';
 import { useHeaderDispatch, useHeaderState } from '@contexts/HeaderProvider';
-import { LabelProvider } from '@contexts/LabelProvider';
-import useAxios from '@hooks/useAxios';
-import { LabelType } from '@type/types';
+
+export default function Layout() {
+  const { isDarkMode } = useHeaderState();
+  const headerDispatch = useHeaderDispatch();
+
+  const handleClickToggleButton = () => {
+    headerDispatch({ type: 'THEME_TOGGLE' });
+  };
+
+  return (
+    <>
+      <Header />
+      <Container padding="0 2rem">
+        <Outlet />
+        <ThemeToggleButton onClick={handleClickToggleButton}>
+          {isDarkMode ? <WbSunnyIcon /> : <NightlightIcon />}
+        </ThemeToggleButton>
+      </Container>
+    </>
+  );
+}
 
 const ThemeToggleButton = styled.button`
   position: fixed;
@@ -27,27 +45,3 @@ const ThemeToggleButton = styled.button`
     color: ${({ theme }) => theme.palette.bgColor};
   }
 `;
-
-export default function Layout() {
-  const { data: labels } = useAxios<LabelType[]>('/api/labels');
-  const { isDarkMode } = useHeaderState();
-  const headerDispatch = useHeaderDispatch();
-
-  const handleClickToggleButton = () => {
-    headerDispatch({ type: 'THEME_TOGGLE' });
-  };
-
-  return (
-    <>
-      <Header />
-      <LabelProvider initialLabelData={labels}>
-        <Container padding="0 2rem">
-          <Outlet />
-          <ThemeToggleButton onClick={handleClickToggleButton}>
-            {isDarkMode ? <WbSunnyIcon /> : <NightlightIcon />}
-          </ThemeToggleButton>
-        </Container>
-      </LabelProvider>
-    </>
-  );
-}

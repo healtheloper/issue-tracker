@@ -125,7 +125,6 @@ const getLogout = async (req, res, ctx) => {
 };
 
 const getAccessTokenReIssue = async (req, res, ctx) => {
-  console.log(req.cookie, req.headers.cookie, req.headers);
   const refreshToken = req.cookies['refresh-token'];
   const accessToken = fakeTokenMap[refreshToken];
   if (!accessToken) {

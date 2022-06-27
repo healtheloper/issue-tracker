@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import LabelTableBody from '@components/LabelTable/LabelTableBody';
 import LabelTableHeader from '@components/LabelTable/LabelTableHeader';
 
-export default function LabelTable({ labels }) {
+export default function LabelTable() {
   return (
     <LabelTableContainer>
-      <LabelTableHeader labelsCount={labels?.length} />
-      <LabelTableBody labels={labels} />
+      <LabelTableHeader />
+      <LabelTableBody />
     </LabelTableContainer>
   );
 }

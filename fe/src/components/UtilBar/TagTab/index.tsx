@@ -7,38 +7,19 @@ import Divider from '@components/Divider';
 import IconTextBox from '@components/IconTextBox';
 import useAxios from '@hooks/useAxios';
 import mixin from '@style/mixin';
-
-type MilestoneDataType = {
-  id: number;
-  subject: string;
-  description: string;
-};
-
-type MilestoneAPIResponseType = {
-  milestones: MilestoneDataType[];
-};
-
-type LabelDataType = {
-  id: number;
-  name: string;
-  description: string;
-  color: string;
-};
-
-type LabelAPIResponseType = {
-  labels: LabelDataType[];
-};
+import { LabelType, MilestoneType } from '@type/types';
 
 export default function TagTab({ activeTab }: { activeTab?: string }) {
-  const serverDomain = process.env.SERVER;
-  const milestoneURL = `${serverDomain}/api/milestones`;
-  const labelURL = `${serverDomain}/api/labels`;
-  const { data: milestoneData } =
-    useAxios<MilestoneAPIResponseType>(milestoneURL);
-  const { data: labelData } = useAxios<LabelAPIResponseType>(labelURL);
+  const { data: { milestones } = {} } = useAxios<{
+    milestones: MilestoneType[];
+  }>('/api/milestones');
+
+  const { data: { labels } = {} } = useAxios<{ labels: LabelType[] }>(
+    '/api/labels',
+  );
   const theme = useTheme();
 
-  return milestoneData ? (
+  return (
     <Wrapper>
       <StyleLink to="/list/label">
         <TagBox
@@ -51,7 +32,7 @@ export default function TagTab({ activeTab }: { activeTab?: string }) {
         >
           <IconTextBox
             Icon={<LocalOfferOutlinedIcon />}
-            texts={['레이블', `(${labelData?.labels.length})`]}
+            texts={['레이블', `(${labels?.length})`]}
             spacing={0.625}
           />
         </TagBox>
@@ -68,13 +49,13 @@ export default function TagTab({ activeTab }: { activeTab?: string }) {
         >
           <IconTextBox
             Icon={<SignpostOutlinedIcon />}
-            texts={['마일스톤', `(${milestoneData?.milestones.length})`]}
+            texts={['마일스톤', `(${milestones?.length})`]}
             spacing={0.625}
           />
         </TagBox>
       </StyleLink>
     </Wrapper>
-  ) : null;
+  );
 }
 
 const TagBox = styled.div<{ bgColor: string; isLeft: boolean }>`

@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
 import LabelTableCell from '@components/LabelTable/LabelTableBody/LabelTableCell';
+import { useLabelStateContext } from '@contexts/LabelProvider';
 import mixin from '@style/mixin';
 
-export default function LabelTableBody({ labels }) {
+export default function LabelTableBody() {
+  const labels = useLabelStateContext();
+
   return (
     <LabelTableBodyContainer>
-      {labels?.length ? (
+      {labels.length ? (
         labels.map((label) => <LabelTableCell key={label.id} label={label} />)
       ) : (
         <NoIssueMessage>검색과 일치하는 결과가 없습니다.</NoIssueMessage>

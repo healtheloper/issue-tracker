@@ -4,42 +4,45 @@ import {
   createContext,
   ReactNode,
   SetStateAction,
-  useMemo,
   Dispatch,
 } from 'react';
 
+import useAxios from '@hooks/useAxios';
 import { LabelType } from '@type/types';
 
-interface ILabelProvider {
-  labels: LabelType[];
-  setLabels: Dispatch<SetStateAction<LabelType[]>>;
-}
-
-const LabelContext = createContext<ILabelProvider | null>(null);
+const LabelStateContext = createContext<LabelType[] | null>(null);
+const LabelSetStateContext = createContext<Dispatch<
+  SetStateAction<LabelType[]>
+> | null>(null);
 
 interface ILabelProviderProps {
-  initialLabelData?: LabelType[];
   children: ReactNode;
 }
 
-export function LabelProvider({
-  initialLabelData,
-  children,
-}: ILabelProviderProps) {
-  const [labels, setLabels] = useState(initialLabelData || []);
-  const labelContextValue = useMemo<ILabelProvider>(
-    () => ({ labels, setLabels }),
-    [],
-  );
+export function LabelProvider({ children }: ILabelProviderProps) {
+  const { data: { labels: initLabels } = {} } = useAxios<{
+    labels: LabelType[];
+  }>('/api/labels');
+
+  const [labels, setLabels] = useState(initLabels || []);
+
   return (
-    <LabelContext.Provider value={labelContextValue}>
-      {children}
-    </LabelContext.Provider>
+    <LabelStateContext.Provider value={labels}>
+      <LabelSetStateContext.Provider value={setLabels}>
+        {children}
+      </LabelSetStateContext.Provider>
+    </LabelStateContext.Provider>
   );
 }
 
-export function useLabelContext() {
-  const issueState = useContext(LabelContext);
-  if (!issueState) throw new Error('Cannot find IssueProvider');
-  return issueState;
+export function useLabelStateContext() {
+  const labelState = useContext(LabelStateContext);
+  if (!labelState) throw new Error('Cannot find LabelProvider');
+  return labelState;
+}
+
+export function useLabelSetStateContext() {
+  const labelSetState = useContext(LabelSetStateContext);
+  if (!labelSetState) throw new Error('Cannot find LabelProvider');
+  return labelSetState;
 }

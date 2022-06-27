@@ -59,10 +59,18 @@ export default function IssueTableHeader({
   );
 
   if (!menuDatas) return <div />;
+
+  // TODO: 무조건 바꿔야할 코드...
+  const parsedMenuDatas = menuDatas.map((data) => {
+    const deletedRootBrace = Object.values(data)[0];
+    return deletedRootBrace;
+  });
+
   const filterDropdownDatas = headerItems?.map((headerItem, idx) => ({
     ...headerItem,
-    menus: menuDatas[idx],
+    menus: parsedMenuDatas[idx],
   }));
+
   const { countOfOpenIssues, countOfClosedIssues, issues } = issueTableData;
 
   const isAllIssueChecked =

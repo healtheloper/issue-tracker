@@ -6,7 +6,8 @@ import { LabelType } from '@type/types';
 let fakeLabels: LabelType[] = [...labels];
 const lastLabelsId = fakeLabels[fakeLabels.length - 1].id;
 
-const getLabels = (req, res, ctx) => res(ctx.status(200), ctx.json(fakeLabels));
+const getLabels = (req, res, ctx) =>
+  res(ctx.status(200), ctx.json({ labels: fakeLabels }));
 
 const postCreateLabel = (req, res, ctx) => {
   const { name, description, color, darkText } = req.body;
