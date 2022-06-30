@@ -13,7 +13,7 @@ export default function ButtonBoxes({ milestoneId, toggleIsEditing }) {
   const { refetch: milestonesRefetch } = useMilestoneContext();
 
   const handleClickCloseButton = async () => {
-    await axios.patch(`/api/milestones/${milestoneId}/status/update`, {
+    await axios.patch(`/api/milestones/${milestoneId}/status`, {
       updatedStatus: 'CLOSED',
     });
     milestonesRefetch();

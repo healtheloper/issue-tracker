@@ -102,7 +102,7 @@ export default function IssueTableHeader({
   };
 
   const handleClickStatusChangeItem = async ({ targetStatus }) => {
-    await axios.patch('/api/issues/status/update', {
+    await axios.patch('/api/issues/status', {
       updatedStatus: targetStatus,
       idOfIssues: checkedIssueIds,
     });

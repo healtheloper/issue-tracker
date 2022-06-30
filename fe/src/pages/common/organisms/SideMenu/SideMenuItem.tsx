@@ -36,17 +36,13 @@ export default function SideMenuItem({
   type,
   state,
   menus,
-  menuDispatch,
+  onClickAddBtn,
 }): React.ReactElement<{
   type: ModalTypes;
   state: MemberType[] | LabelType[] | MilestoneType;
   menuDispatch: MenuDispatchType;
 }> {
   const title = `${KoType[type]} 추가`;
-
-  const handleClickItemAddBtn = (menu) => {
-    menuDispatch({ type, data: menu });
-  };
 
   return (
     <Container padding="2.5rem 2rem">
@@ -61,12 +57,12 @@ export default function SideMenuItem({
           top={2}
           title={title}
           menus={getFormattedMenus(menus, type)}
-          onClickPopoverItem={handleClickItemAddBtn}
+          onClickPopoverItem={onClickAddBtn}
         >
           <AddIcon sx={{ cursor: 'pointer' }} />
         </PopoverContainer>
       </Container>
-      {getSubBoxByType(type, state)}
+      {state && getSubBoxByType(type, state)}
     </Container>
   );
 }
@@ -78,12 +74,19 @@ function getFormattedMenus(menus, type) {
     case 'ASSIGNEE':
       return menus?.map((menu) => ({
         ...menu,
+        type: 'ASSIGNEE',
         name: menu.identity,
       }));
     case 'MILESTONE':
       return menus?.map((menu) => ({
         ...menu,
+        type: 'MILESTONE',
         name: menu.subject,
+      }));
+    case 'LABEL':
+      return menus?.map((menu) => ({
+        ...menu,
+        type: 'LABEL',
       }));
     default:
       return menus;

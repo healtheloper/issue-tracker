@@ -53,6 +53,10 @@ export default function CreateIssuePage() {
     }
   };
 
+  const handleClickItemAddBtn = (menu) => {
+    menuDispatch({ type: menu.type, data: menu });
+  };
+
   return (
     <Body onSubmit={handleSubmit}>
       <TitleBar title="새로운 이슈 작성" />
@@ -66,7 +70,7 @@ export default function CreateIssuePage() {
           />
           <TextAreaBox />
         </Container>
-        <SideMenu menuState={menuState} menuDispatch={menuDispatch} />
+        <SideMenu menuState={menuState} onClickAddBtn={handleClickItemAddBtn} />
       </GridContainer>
       <Divider margin="2rem" />
       <Container

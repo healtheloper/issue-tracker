@@ -8,8 +8,8 @@ const mileStones = {
       description: '프론트 및 백엔드 구현',
       endDate: '2022-07-11',
       status: 'OPEN',
-      totalCountOfIssues: 10,
-      countOfClosedIssues: 3,
+      totalCountOfIssues: 1,
+      countOfClosedIssues: 0,
     },
     {
       id: 2,
@@ -17,8 +17,8 @@ const mileStones = {
       description: '프론트 및 백엔드 구현',
       endDate: '2022-07-11',
       status: 'OPEN',
-      totalCountOfIssues: 2,
-      countOfClosedIssues: 1,
+      totalCountOfIssues: 1,
+      countOfClosedIssues: 0,
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ const mileStones = {
       endDate: '2022-07-11',
       status: 'OPEN',
       totalCountOfIssues: 1,
-      countOfClosedIssues: 0,
+      countOfClosedIssues: 1,
     },
     {
       id: 4,
@@ -36,7 +36,7 @@ const mileStones = {
       endDate: '2022-06-11',
       status: 'CLOSED',
       totalCountOfIssues: 1,
-      countOfClosedIssues: 0,
+      countOfClosedIssues: 1,
     },
   ],
 };

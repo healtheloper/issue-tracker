@@ -25,6 +25,10 @@ const issues: IssueType[] = [
       id: 1,
       subject: '이슈 트래커 서비스 구현',
       description: '프론트 및 백엔드 구현',
+      endDate: '2022-07-11',
+      status: 'OPEN',
+      totalCountOfIssues: 1,
+      countOfClosedIssues: 0,
     },
     assignees: [
       {
@@ -69,6 +73,10 @@ const issues: IssueType[] = [
       id: 2,
       subject: '숙소 예약 서비스 구현',
       description: '프론트 및 백엔드 구현',
+      endDate: '2022-07-11',
+      status: 'OPEN',
+      totalCountOfIssues: 1,
+      countOfClosedIssues: 0,
     },
     assignees: [],
     labels: [
@@ -119,6 +127,10 @@ const issues: IssueType[] = [
       id: 3,
       subject: '반찬 주문 서비스 구현',
       description: '프론트 및 백엔드 구현',
+      endDate: '2022-07-11',
+      status: 'OPEN',
+      totalCountOfIssues: 1,
+      countOfClosedIssues: 1,
     },
     assignees: [
       {
@@ -152,9 +164,13 @@ const issues: IssueType[] = [
     profileUrl: alanProfileURL,
     createdDateTime: '2022-06-21T21:23:00',
     milestone: {
-      id: 1,
-      subject: '이슈 트래커 서비스 구현',
-      description: '프론트 및 백엔드 구현',
+      id: 4,
+      subject: '카카오 페이지 구현',
+      description: '프론트 구현',
+      endDate: '2022-06-11',
+      status: 'CLOSED',
+      totalCountOfIssues: 1,
+      countOfClosedIssues: 1,
     },
     assignees: [
       {

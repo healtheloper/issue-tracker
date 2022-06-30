@@ -147,7 +147,7 @@ export default function milestoneHandlers() {
     rest.get('/api/milestones', getMilestones),
     rest.post('/api/milestones', postMilestones),
     rest.patch('/api/milestones/:id', patchMilestone),
-    rest.patch('/api/milestones/:id/status/update', patchMilestoneState),
+    rest.patch('/api/milestones/:id/status', patchMilestoneState),
     rest.delete('/api/milestones/:id', deleteMilestone),
   ];
 }

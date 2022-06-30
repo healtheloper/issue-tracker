@@ -34,7 +34,7 @@ const postCreateIssue = (req, res, ctx) => {
       }),
     );
   }
-  const milestone = fakeMileStones.find((m) => m.id === milestoneId);
+  const milestone = fakeMileStones.milestones.find((m) => m.id === milestoneId);
   if (!milestone) {
     return res(
       ctx.status(404),
@@ -138,8 +138,8 @@ const updateLabels: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
 };
 
 const updateMilestone: Parameters<typeof rest.get>[1] = (req, res, ctx) => {
-  const { milestoneId }: { milestoneId: number } = req.body;
-  const milestoneData = fakeMileStones.find(
+  const { milestoneId }: { milestoneId: number | null } = req.body;
+  const milestoneData = fakeMileStones.milestones.find(
     (milestone) => milestone.id === milestoneId,
   );
   const { id: targetId } = req.params;
@@ -231,12 +231,12 @@ export default function issueHandlers() {
     rest.get('/api/issues/:id', getIssue),
     rest.post('/api/issues', postCreateIssue),
     rest.post('/api/issues/:id/replies', addReply),
-    rest.patch('/api/issues/status/update', updateStatus),
-    rest.patch('/api/issues/:id/subject/update', updateSubject),
-    rest.patch('/api/issues/:id/labels/update', updateLabels),
-    rest.patch('/api/issues/:id/milestone/update', updateMilestone),
-    rest.patch('/api/issues/:id/assignees/update', updateAssignees),
-    rest.patch('/api/issues/replies/:id/update', updateReply),
+    rest.patch('/api/issues/status', updateStatus),
+    rest.patch('/api/issues/:id/subject', updateSubject),
+    rest.patch('/api/issues/:id/labels', updateLabels),
+    rest.patch('/api/issues/:id/milestone', updateMilestone),
+    rest.patch('/api/issues/:id/assignees', updateAssignees),
+    rest.patch('/api/issues/replies/:id', updateReply),
     rest.delete('/api/issues/:id', deleteIssue),
   ];
 }

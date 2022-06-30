@@ -42,7 +42,7 @@ export default function ReplyWritingArea({
         comment: formData.description.value,
       });
     } else if (type === 'EDIT') {
-      await axios.patch(`/api/issues/replies/${originalData?.id}/update`, {
+      await axios.patch(`/api/issues/replies/${originalData?.id}`, {
         comment: formData.description.value,
       });
       if (!finishEdit) throw new Error('Cannot handle finishing edit');

@@ -28,7 +28,7 @@ export default function IssueUtilButtons({
   const handleClickFinshEditButton = async () => {
     const newTitle = titleRef.current?.value;
     if (!newTitle || newTitle.length === 0) return;
-    await axios.patch(`/api/issues/${id}/subject/update`, {
+    await axios.patch(`/api/issues/${id}/subject`, {
       subject: newTitle,
     });
     setIsTitleEditing(false);
@@ -36,7 +36,7 @@ export default function IssueUtilButtons({
   };
 
   const handleClickToggleIssuStatusButton = async () => {
-    await axios.patch('/api/issues/status/update', {
+    await axios.patch('/api/issues/status', {
       updatedStatus: status === 'OPEN' ? 'CLOSED' : 'OPEN',
       idOfIssues: [id],
     });

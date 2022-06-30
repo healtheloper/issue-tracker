@@ -7,7 +7,7 @@ import { useMemberContext } from '@contexts/MemberProvider';
 import { useMilestoneContext } from '@contexts/MilestoneProvider';
 import SideMenuItem from '@pages/common/organisms/SideMenu/SideMenuItem';
 
-export default function SideMenu({ menuState, menuDispatch }) {
+export default function SideMenu({ menuState, onClickAddBtn }) {
   const theme = useTheme();
   const { members } = useMemberContext();
   const { labels } = useLabelContext();
@@ -19,21 +19,21 @@ export default function SideMenu({ menuState, menuDispatch }) {
         type="ASSIGNEE"
         menus={members}
         state={menuState.assignees}
-        menuDispatch={menuDispatch}
+        onClickAddBtn={onClickAddBtn}
       />
       <Divider margin="" />
       <SideMenuItem
         type="LABEL"
         menus={labels}
         state={menuState.labels}
-        menuDispatch={menuDispatch}
+        onClickAddBtn={onClickAddBtn}
       />
       <Divider margin="" />
       <SideMenuItem
         type="MILESTONE"
         menus={milestones}
         state={menuState.milestone}
-        menuDispatch={menuDispatch}
+        onClickAddBtn={onClickAddBtn}
       />
     </Squircle>
   );
