@@ -7,9 +7,9 @@ import GlobalStyle from '@style/GlobalStyle';
 import { darkTheme, lightTheme } from '@style/theme';
 
 export default function App() {
-  const { isDarkMode, isLogin } = useHeaderState();
+  const { isDarkMode, isLogin, userInfo } = useHeaderState();
   const { reLogin } = useLogin();
-  if (isLogin) {
+  if (isLogin && !userInfo) {
     reLogin();
   }
 
