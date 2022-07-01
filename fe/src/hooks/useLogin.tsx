@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
-import { useHeaderDispatch } from '@contexts/HeaderProvider';
+import { useEffect, useState } from 'react';
 
 export default function useLogin() {
-  const navigate = useNavigate();
-  const headerDispatch = useHeaderDispatch();
+  const [userInfo, setUserInfo] = useState(null);
+
   let refreshIntervalId: NodeJS.Timer;
 
   const setAccessTokenOnHeader = (accessToken: string) => {
@@ -23,39 +21,93 @@ export default function useLogin() {
   };
 
   const reissueAccessToken = async () => {
-    const res = await axios.post('/api/access-token/reissue');
-    const accessToken = res.headers['access-token'];
-    setAccessTokenOnHeader(accessToken);
+    try {
+      const res = await axios.post('/api/access-token/reissue');
+      const accessToken = res.headers['access-token'];
+      setAccessTokenOnHeader(accessToken);
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+      };
+    }
   };
 
+  // 역할: cookie reset
   const logOut = () => {
-    headerDispatch({ type: 'LOGOUT' });
+    // headerDispatch({ type: 'LOGOUT' });
     document.cookie = `refresh-token=expires. ${new Date().toISOString()}`;
-    navigate('/');
+    axios.defaults.headers.common.Authorization = '';
+    setUserInfo(null);
+    // navigate('/');
   };
 
-  const getAndStoreUserInfo = async () => {
-    const { data: userInfo } = await axios.get(`/api/mine`);
-    headerDispatch({ type: 'LOGIN', userInfo });
-    setRefreshInterval();
-    navigate('/');
+  const getUserInfoByAccessToken = async () => {
+    try {
+      const { data } = await axios.get(`/api/mine`);
+      // headerDispatch({ type: 'LOGIN', userInfo });
+      setRefreshInterval();
+      return {
+        ok: true,
+        data,
+      };
+      // navigate('/');
+    } catch (error) {
+      const { message } = error as Error;
+      return {
+        ok: false,
+        message,
+      };
+    }
   };
 
   const login = async (loginUrl) => {
-    const jwtResponse = await axios.get(loginUrl);
-    const accessToken = jwtResponse.headers['access-token'];
-    setAccessTokenOnHeader(accessToken);
-    getAndStoreUserInfo();
+    try {
+      const jwtResponse = await axios.get(loginUrl);
+      const accessToken = jwtResponse.headers['access-token'];
+      setAccessTokenOnHeader(accessToken);
+      const { ok, data, message } = await getUserInfoByAccessToken();
+      if (!ok) {
+        throw Error(message);
+      }
+      setUserInfo(data);
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      const { message } = error as Error;
+      return {
+        ok: false,
+        message,
+      };
+    }
   };
 
   const reLogin = async () => {
     try {
       await reissueAccessToken();
-      await getAndStoreUserInfo();
-    } catch (err) {
-      console.error('재로그인이 불가합니다.');
+      const { ok, data, message } = await getUserInfoByAccessToken();
+      if (!ok) {
+        throw Error(message);
+      }
+      setUserInfo(data);
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      const { message } = error as Error;
+      return {
+        ok: false,
+        message,
+      };
     }
   };
 
-  return { login, reLogin };
+  useEffect(() => {
+    reLogin();
+  }, []);
+
+  return { userInfo, login, reLogin };
 }

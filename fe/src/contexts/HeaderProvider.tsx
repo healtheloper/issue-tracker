@@ -81,7 +81,7 @@ function reducer(state: IHeaderState, action: Action): IHeaderState {
 }
 
 export function HeaderProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, initHeaderState);
+  const [state, dispatch] = useReducer(reducer, initHeaderStateForProd);
 
   return (
     <HeaderStateContext.Provider value={state}>
