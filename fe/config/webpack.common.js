@@ -56,10 +56,16 @@ module.exports = {
           {
             loader: 'string-replace-loader',
             options: {
-              search: '__API_END_POINT__',
-              replace:
-                process.env.NODE_ENV === 'dev' ? API_URL.DEV : API_URL.PROD,
-              flags: 'g',
+              multiple: [
+                {
+                  search: '__API_END_POINT__',
+                  replace:
+                    process.env.NODE_ENV === 'development'
+                      ? API_URL.DEV
+                      : API_URL.PROD,
+                  flags: 'g',
+                },
+              ],
             },
           },
         ],

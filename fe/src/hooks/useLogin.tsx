@@ -30,7 +30,7 @@ export default function useLogin() {
 
   const logOut = () => {
     headerDispatch({ type: 'LOGOUT' });
-    document.cookie = `refresh-token=expires. ${new Date().toISOString()}`;
+    localStorage.setItem('isLogin', 'false');
     navigate('/');
   };
 
@@ -46,6 +46,7 @@ export default function useLogin() {
     const accessToken = jwtResponse.headers['access-token'];
     setAccessTokenOnHeader(accessToken);
     getAndStoreUserInfo();
+    localStorage.setItem('isLogin', 'true');
   };
 
   const reLogin = async () => {

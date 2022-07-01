@@ -1,14 +1,17 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import Squircle from '@components/layout/Squircle';
 
-export default function InputBox(props) {
+function InputBox(props, ref) {
   return (
-    <Squircle width={100} unit="%">
-      <MyInput {...props} />
+    <Squircle width="100%">
+      <MyInput ref={ref} {...props} />
     </Squircle>
   );
 }
+
+export default forwardRef(InputBox);
 
 const MyInput = styled.input`
   width: 100%;

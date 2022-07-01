@@ -4,10 +4,9 @@
   "description": "Boilerplate for React project with TypeScript",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=prod webpack serve --config config/webpack.dev.js",
-    "build:dev": "cross-env NODE_ENV=prod webpack --config config/webpack.dev.js",
-    "build": "cross-env NODE_ENV=prod webpack --config config/webpack.prod.js",
-    "deploy:dev": "npm run build:dev && netlify deploy"
+    "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
+    "build:dev": "cross-env NODE_ENV=production webpack --config config/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js"
   },
   "repository": {
     "type": "git",

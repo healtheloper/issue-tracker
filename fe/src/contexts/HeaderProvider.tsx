@@ -15,18 +15,28 @@ type Action =
 
 type HeaderDispatch = Dispatch<Action>;
 
-const initHeaderState: IHeaderState = {
-  isLogin: false,
-  isDarkMode: Boolean(localStorage.getItem('isDarkMode')) || false,
+/*
+  Production Header
+*/
+const isLoginInBrowser = localStorage.getItem('isLogin');
+const initHeaderStateForProd: IHeaderState = {
+  isLogin: isLoginInBrowser ? JSON.parse(isLoginInBrowser) : false,
+  isDarkMode: JSON.parse(
+    localStorage.getItem('isDarkMode') ||
+      String(window.matchMedia('(prefers-color-scheme: dark)').matches),
+  ),
   userInfo: null,
 };
 
 /*
-  Default Page 작업용 init state
+  Development Header
 */
-const initHeaderStateForDefaultPage: IHeaderState = {
+const initHeaderStateForDev: IHeaderState = {
   isLogin: true,
-  isDarkMode: JSON.parse(localStorage.getItem('isDarkMode') || 'false'),
+  isDarkMode: JSON.parse(
+    localStorage.getItem('isDarkMode') ||
+      String(window.matchMedia('(prefers-color-scheme: dark)').matches),
+  ),
   userInfo: {
     id: 1,
     identity: 'ikjo',
@@ -35,6 +45,11 @@ const initHeaderStateForDefaultPage: IHeaderState = {
   },
 };
 //
+
+const initHeaderState =
+  process.env.NODE_ENV === 'production'
+    ? initHeaderStateForProd
+    : initHeaderStateForDev;
 
 const HeaderStateContext = createContext<IHeaderState | null>(null);
 const HeaderDispatchContext = createContext<HeaderDispatch | null>(null);
@@ -67,7 +82,6 @@ function reducer(state: IHeaderState, action: Action): IHeaderState {
 }
 
 export function HeaderProvider({ children }: { children: React.ReactNode }) {
-  // TODO: init state 작업에 따라 바꿔서 사용하세요
   const [state, dispatch] = useReducer(reducer, initHeaderState);
 
   return (

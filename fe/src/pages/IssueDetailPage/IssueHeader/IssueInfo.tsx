@@ -3,6 +3,7 @@ import { RefObject } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import IconTextBox from '@components/data-display/IconTextBox';
+import InputBox from '@components/input/InputBox';
 import Container from '@components/layout/Container';
 import Squircle from '@components/layout/Squircle';
 import { fontSize } from '@constants/fonts';
@@ -32,12 +33,12 @@ export default function IssueInfo({ isTitleEditing, titleRef }: IIssueInfo) {
     <Container>
       <Container flexInfo={{ align: 'center' }} gap={1}>
         {isTitleEditing ? (
-          <input ref={titleRef} placeholder="제목" />
+          <InputBox ref={titleRef} defaultValue={subject} />
         ) : (
-          <>
+          <IssueTitleWrapper>
             <IssueTitle>{subject}</IssueTitle>
             <IssueNumber>{`#${id}`}</IssueNumber>
-          </>
+          </IssueTitleWrapper>
         )}
       </Container>
       <Container flexInfo={{ align: 'center' }} gap={0.5} mt="1.25rem">
@@ -91,6 +92,11 @@ export default function IssueInfo({ isTitleEditing, titleRef }: IIssueInfo) {
   );
 }
 
+const IssueTitleWrapper = styled.div`
+  ${mixin.flexMixin({ align: 'center' })}
+  gap: 1rem;
+  height: 4rem;
+`;
 const IssueTitle = styled.h1`
   font-size: ${fontSize.large};
 `;

@@ -66,6 +66,13 @@ export default function IssueTableHeader({
 
   const isAnyIssueChecked = checkedIssueIds.length >= 1;
 
+  const getPopoverPositionLeft = (type) => {
+    if (type === 'WRITER' || type === 'MILESTONE') {
+      return '-10rem';
+    }
+    return '-2rem';
+  };
+
   const filterDropdownDatas = headerItems.map((item) => {
     switch (item.type) {
       case 'ASSIGNEE':
@@ -143,6 +150,7 @@ export default function IssueTableHeader({
             <PopoverContainer<PopoverContentType>
               key={type}
               title={title}
+              left={getPopoverPositionLeft(type)}
               menus={getFormattedMenus(type, menus)}
               onClickPopoverItem={handleClickFilterItem}
             >

@@ -35,7 +35,7 @@ const postCreateIssue = (req, res, ctx) => {
     );
   }
   const milestone = fakeMileStones.milestones.find((m) => m.id === milestoneId);
-  if (!milestone) {
+  if (milestoneId && !milestone) {
     return res(
       ctx.status(404),
       ctx.json({
