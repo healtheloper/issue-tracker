@@ -7,9 +7,11 @@ import GlobalStyle from '@style/GlobalStyle';
 import { darkTheme, lightTheme } from '@style/theme';
 
 export default function App() {
-  const { isDarkMode } = useHeaderState();
+  const { isDarkMode, isLogin } = useHeaderState();
   const { reLogin } = useLogin();
-  reLogin();
+  if (isLogin) {
+    reLogin();
+  }
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
